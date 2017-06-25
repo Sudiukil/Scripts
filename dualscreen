@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# Handles dual screen config for laptop (requires screen variables to be set)
+
+MAIN="LVDS1"
+VGA="VGA1"
+HDMI="HDMI1"
+
+print_usage() {
+	echo "Usage: ${0##*/} --hdmi|--vga|--off (--left|--right|--above|--under)"
+}
+
+# Enable requested monitor
+case "$1" in
+	--hdmi)
+		output="$HDMI"
+		xrandr --output $MAIN --auto --output $HDMI --auto;;
+	--vga)
+		output="$VGA"
+		xrandr --output $MAIN --auto --output $VGA --auto;;
+	--off)
+		xrandr --output $MAIN --auto --output $HDMI --off --output $VGA --off;;
+	-h)
+		print_usage
+		exit 0;;
+	*)
+		print_usage
+		exit 1;;
+esac
+
+# Set requested monitor position
+if [ "$2" != "" -a "$output" != "" ]
+then
+	case "$2" in
+		--left|--right)
+			xrandr --output $output $2-of $MAIN;;
+		--above|--below)
+			xrandr --output $output $2 $MAIN;;
+		*)
+			print_usage
+			exit 1;;
+	esac
+fi
+
+# Sets background using feh
+sh ~/.fehbg
+
+exit 0

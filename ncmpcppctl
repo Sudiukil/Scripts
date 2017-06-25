@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# Wrapper script for ncmpcpp (used to have equivalent parameters with spotifyctl)
+
+print_usage() {
+	echo "Usage:"
+	echo "${0##*/} toggle\t Toggle play/pause"
+	echo "${0##*/} stop\t\t Stop playback"
+	echo "${0##*/} prev\t\t Previous track"
+	echo "${0##*/} next\t\t Next track"
+	echo "${0##*/} info\t\t Show song info/metadata"
+	echo "${0##*/} rawinfo\t Show song info/metadata (simplified)"
+}
+
+case $1 in
+	-toggle|toggle)
+		mpc -q toggle;;
+	-stop|stop)
+		mpc -q stop;;
+	-prev|prev)
+		mpc -q prev;;
+	-next|next)
+		mpc -q next;;
+	-info|info)
+		info=$(ncmpcpp --current-song="{%n. }{%t}|{%f}{ - %a}{ (%b)}")
+		if [ "$info" ]
+		then
+			echo $info
+		else
+			echo "stopped"
+		fi;;
+	-rawinfo|rawinfo)
+		rawinfo=$(ncmpcpp --current-song="{%t %a}")
+		if [ "$rawinfo" ]
+		then
+			echo $rawinfo
+		else
+			echo "stopped"
+		fi;;
+	*)
+		print_usage
+		exit 1;;
+esac
+
+exit 0
