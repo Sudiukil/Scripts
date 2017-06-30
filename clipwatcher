@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# Logs clipboard content (using xclip) to terminal (or file with -w arg)
+
+echo "" | xclip
+
+if [ "$1" = "-w" ]
+then
+	truncate -s 0 clipboard.log
+fi
+
+while [ 1 ]
+do
+	old=$c
+	c=`xclip -o 2> /dev/null`
+
+	if [ "$c" != "$old" -a "$c" != "" ]
+	then
+		if [ "$1" = "-w" ]
+		then
+			echo "$c" | tee -a clipboard.log
+		else
+			echo "$c"
+		fi
+	fi
+done
+
+exit 0
