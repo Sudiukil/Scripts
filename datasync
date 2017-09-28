@@ -33,7 +33,7 @@ def cookie_check(way):
 
     cookie_file = open(COOKIE_FILEPATH, "r")
     if cookie_file.read().split("\n")[0] == way:
-        print("WARN: Same sync direction as last sync (remove ~/.config/datasync/cookie to force")
+        print("WARN: Same sync direction as last sync (remove ~/.config/datasync/cookie to force)")
         sys.exit(1)
     else:
         cookie_file.close()

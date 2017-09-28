@@ -1,0 +1,70 @@
+#!/bin/sh
+
+echo "Warning: this script generates a simple openvpn config that redirects all client traffic through the server"
+echo "Server config will be generated and one client config will be available"
+echo "The script should run in the easy-rsa dir and the vars file should be configured before running the script"
+echo "This script is not meant to provide a fully configured (nor safe) VPN config, it's made to deploy a test vpn server in a flash"
+echo "Also, this script requires sudo"
+echo "\nPress any key to continue"
+read foo
+echo "\n"
+
+# Check for the easy-rsa binaries
+if ! [ -f vars -a -x build-ca -a -x build-key-server -a -x build-key -a -x build-dh ]
+then
+	echo "Must run in easy-rsa dir"
+	exit 1
+fi
+
+# Generate keys and certs
+. ./vars
+./clean-all
+./build-ca
+./build-key-server server
+./build-key client
+./build-dh
+
+cd keys
+
+# Pull sample config files
+cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz .
+gunzip server.conf.gz
+cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf .
+
+# Change server.conf to fit dh parameters
+sed -e 's/dh1024.pem/dh2048.pem/g' -i server.conf
+
+# Add config to server to allow routing all the traffic from clients
+echo 'push "redirect-gateway local def1"' >> server.conf
+echo 'push "dhcp-option DNS 8.8.8.8"' >> server.conf
+
+# Sets the local IP address of the server as remote address for the client
+sed -e 's/my-server-1/'"$(hostname -I)"'/' -i client.conf
+
+# Move everything to cleaner dirs
+mkdir server client
+cp ca.crt ca.key server.crt server.key server.conf dh2048.pem server
+cp ca.crt client.crt client.key client.conf client
+cp client.conf client/client.ovpn
+zip -r client.zip client
+
+# Clean the rest
+ls | while read i
+do
+	if [ "$i" != "server" -a "$i" != "client" -a "$i" != "client.zip" ]
+	then
+		rm -rf $i
+	fi
+done
+
+# Build startup script for server
+# Does: allow IP forwarding, allow traffic routing
+cd server
+echo 'sudo sysctl -w net.ipv4.ip_forward=1' >> run.sh
+echo 'sudo iptables -I FORWARD -i tun0 -o eth0 -s 10.8.0.0/24 -m conntrack --ctstate NEW -j ACCEPT' >> run.sh
+echo 'sudo iptables -I FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT' >> run.sh
+echo 'sudo iptables -t nat -I POSTROUTING -o eth0 -s 10.8.0.0/24 -j MASQUERADE' >> run.sh
+echo 'sudo openvpn server.conf' >> run.sh
+chmod +x run.sh
+
+exit 0
