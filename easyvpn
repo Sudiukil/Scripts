@@ -39,7 +39,7 @@ echo 'push "redirect-gateway local def1"' >> server.conf
 echo 'push "dhcp-option DNS 8.8.8.8"' >> server.conf
 
 # Sets the local IP address of the server as remote address for the client
-sed -e 's/my-server-1/'"$(hostname -I)"'/' -i client.conf
+sed -e 's/my-server-1/'"$(hostname -I | cut -d ' ' -f 1)"'/' -i client.conf
 
 # Move everything to cleaner dirs
 mkdir server client
