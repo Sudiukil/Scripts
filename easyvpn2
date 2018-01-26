@@ -17,11 +17,9 @@ pack_server() {
 	cd easyrsa/keys
 
 	# Copy the files required by the server to its directory
-	cp ca.crt ca.key server.crt server.key dh2048.pem ../../server
+	cp ca.crt ca.key server.crt server.key dh2048.pem crl.pem ../../server
 
 	cd ../../server
-
-	touch crl.pem
 
 	if ! [ -f server.conf ]
 	then
@@ -119,6 +117,9 @@ init() {
 	./build-key-server server
 	./build-key default
 	./build-dh
+
+	# To generate an "empty" crl.pem file
+	./revoke-full dummy 2> /dev/null
 
 	cd ..
 
