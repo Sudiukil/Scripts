@@ -21,6 +21,8 @@ pack_server() {
 
 	cd ../../server
 
+	touch crl.pem
+
 	if ! [ -f server.conf ]
 	then
 		# Pull sample config file
