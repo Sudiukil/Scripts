@@ -80,7 +80,7 @@ pack_client() {
 # Initlialize VPN (creates server and one client conf)
 init() {
 	# Check if the current dir does not contain a VPN configuration already
-	if [ -d server -o -d client -o -d easyrsa ]
+	if [ -d server -o -d client ]
 	then
 		echo "This directory seems populated, aborting..."
 		exit 1
