@@ -6,7 +6,7 @@ warn() {
 	echo "Server config will be generated and one client config will be available"
 	echo "This script is not meant to provide a fully configured (nor safe) VPN config, it's made to deploy a basic VPN in a flash"
 	echo "Note that the vars file should be edited BEFORE using this script"
-	echo "Also, this script requires sudo"
+	echo "This script requires: sudo, openvpn, easy-rsa, zip"
 	echo "\nPress any key to continue"
 	read foo
 	echo "\n"
@@ -97,7 +97,12 @@ init() {
 	fi
 
 	# Pull easy-rsa from /usr/share and prepare directories
-	cp -r /usr/share/easy-rsa easyrsa
+	if ! [ -d easyrsa ]
+	then
+		echo "easyrsa found locally, using this copy..."
+		cp -r /usr/share/easy-rsa easyrsa
+	fi
+
 	mkdir server
 	mkdir -p clients/default
 
