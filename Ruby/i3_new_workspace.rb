@@ -1,4 +1,4 @@
-#!/home/quentin/.rvm/rubies/ruby-2.2.7/bin/ruby
+#!/home/quentin/.rvm/rubies/default/bin/ruby
 
 require 'json'
 
