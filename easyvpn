@@ -31,7 +31,7 @@ pack_server() {
 		sed -e 's/dh1024.pem/dh2048.pem/g' -i server.conf
 
 		# Add config to server to allow routing all the traffic from clients
-		echo 'push "redirect-gateway local def1"' >> server.conf
+		echo "\n"'push "redirect-gateway local def1"' >> server.conf
 		echo 'push "dhcp-option DNS 8.8.8.8"' >> server.conf
 		echo 'crl-verify crl.pem' >> server.conf
 
@@ -66,6 +66,10 @@ pack_client() {
 	# Sets the client certificate and key fields
 	sed -e 's/client.crt/'"$1"'.crt/' -i "$1.conf"
 	sed -e 's/client.key/'"$1"'.key/' -i "$1.conf"
+
+	# Additionnal config
+	echo "\n"'script-security 2' >> "$1.conf"
+	echo "\n"'up /etc/openvpn/update-resolv-conf' >> "$1.conf"
 
 	# Copy of the client conf file with a .ovpn extension (for Windows users)
 	cp "$1.conf" "$1.ovpn"
