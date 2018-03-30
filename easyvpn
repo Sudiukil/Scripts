@@ -84,7 +84,7 @@ pack_client() {
 # Initlialize VPN (creates server and one client conf)
 init() {
 	# Check if the current dir does not contain a VPN configuration already
-	if [ -d server -o -d client ]
+	if [ -d server -o -d clients ]
 	then
 		echo "This directory seems populated, aborting..."
 		exit 1
@@ -113,7 +113,7 @@ init() {
 	cd easyrsa
 
 	# Check for the easy-rsa binaries
-	if ! [ -f vars -a -x build-ca -a -x build-key-server -a -x build-key -a -x build-dh ]
+	if ! [ -f vars -a -x clean-all -a -x build-ca -a -x build-key-server -a -x build-key -a -x build-dh ]
 	then
 		echo "Specified easy-rsa dir is invalid"
 		exit 1
@@ -173,7 +173,6 @@ revoke_client() {
 	cd ..
 
 	pack_server
-	cp easyrsa/keys/crl.pem server
 
 	if ! [ -d revoked ]
 	then
