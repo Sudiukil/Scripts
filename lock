@@ -1,6 +1,6 @@
 #!/bin/sh
 
-kill $(cat /tmp/bitwarden-wrapper.pid)
+sh ~/Autre/Scripts/bitwarden -k
 i3lock -t -i "$(grep '^feh' ~/.fehbg | cut -d "'" -f 2)"
 
 exit 0

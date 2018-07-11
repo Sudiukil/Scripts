@@ -1,7 +1,7 @@
 #!/bin/sh
 
 run() {
-	job="$(date +"%M") $(($(date +"%H")+1)) * * * $(which $0) -k"
+	job="$(date +"%M") $(echo $(date +"%H")+1 | bc -l) * * * $(which $0) -k"
 	/opt/bitwarden &
 	echo $! > /tmp/bitwarden-wrapper.pid
 	(crontab -l; echo "$job") | crontab -
