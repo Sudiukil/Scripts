@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Wrapper script for playerctl, allowing direct control over spotify
+# Requires: playerctl
 
 print_usage() {
 	echo "Usage:"

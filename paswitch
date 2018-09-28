@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Wrapper to switch easily all inputs between PulseAudio sinks
+# Requires: pacmd
 
 print_usage() {
 	echo "Usage:"

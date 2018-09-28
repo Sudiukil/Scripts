@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Logs clipboard content (using xclip) to terminal (or file with -w arg)
+# Requires: xclip
 
 echo "" | xclip
 

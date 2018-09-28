@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Script for generating an OpenVPN setup
+# It's not safe, don't use it
+
 # Prints a warning message about this script
 warn() {
 	echo "Warning: this script generates a simple openvpn config that redirects all client traffic through the server"

@@ -2,13 +2,13 @@
 
 # Displays terminal colors
 
-echo "\033[40m     color0     \033[100m     color8     \033[0m"
-echo "\033[41m     color1     \033[101m     color9     \033[0m"
-echo "\033[42m     color2     \033[102m     color10    \033[0m"
-echo "\033[30m     color3     \033[103m     color11    \033[0m"
-echo "\033[44m     color4     \033[104m     color12    \033[0m"
-echo "\033[45m     color5     \033[105m     color13    \033[0m"
-echo "\033[46m     color6     \033[106m     color14    \033[0m"
-echo "\033[30m     color7     \033[107m     color15    \033[0m"
+echo "\033[40m                \033[100m                \033[0m"
+echo "\033[41m                \033[101m                \033[0m"
+echo "\033[42m                \033[102m                \033[0m"
+echo "\033[43m                \033[103m                \033[0m"
+echo "\033[44m                \033[104m                \033[0m"
+echo "\033[45m                \033[105m                \033[0m"
+echo "\033[46m                \033[106m                \033[0m"
+echo "\033[47m                \033[107m                \033[0m"
 
 exit 0

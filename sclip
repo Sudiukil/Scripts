@@ -1,0 +1,8 @@
+#/bin/sh
+
+# Scrot selection screenshot with automatic copy in clipboard
+# Requires: scrot, xclip
+
+scrot -s '%Y-%m-%d_%H%M%S.png' -e 'xclip -selection clipboard -t image/png -i $f'
+
+exit 0

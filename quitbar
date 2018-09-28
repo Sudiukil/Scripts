@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Uses i3-nagbar to allow to shutdown/reboot/... with one click
+# Requires: i3-nagbar
 
 i3-nagbar -m "Menu d'extinction"\
 	-b "Éteindre" "systemctl poweroff"\

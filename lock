@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# i3lock with feh background
+
 i3lock -t -i "$(grep '^feh' ~/.fehbg | cut -d "'" -f 2)"
 
 exit 0

@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Handles dual screen config for laptop (requires screen variables to be set)
+# Requires: xrandr
 
 MAIN="LVDS1"
 VGA="VGA1"

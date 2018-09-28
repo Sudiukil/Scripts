@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Extracts or creates various type of archive
+# Requires: tar, zip, unrar, jar (from Java JDK/JRE) and p7zip
 
 print_usage() {
 	echo "Usage:"

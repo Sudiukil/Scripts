@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Wrapper script for ncmpcpp (used to have equivalent parameters with spotifyctl)
+# Requires: mpc, ncmpcpp
 
 print_usage() {
 	echo "Usage:"
