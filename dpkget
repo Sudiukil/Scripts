@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Use to download and install a .deb directly from URL
+# Requires: wget, dpkg
+# Run as root or w/ sudo
+
+dest=/var/cache/apt/archives
+url="$1"
+name=$(echo $url | rev | cut -d '/' -f 1 | rev)
+
+wget -q --show-progress "$url" -O "$dest/$name" && dpkg -i "$dest/$name"
+
+exit 0
