@@ -4,6 +4,6 @@
 # Requires: scrot, xclip
 
 sleep 1
-scrot -s '%Y-%m-%d_%H%M%S.png' -e 'xclip -selection clipboard -t image/png -i $f'
+scrot -s "$HOME/Images/Screenshots/%Y-%m-%d_%H%M%S.png" -e 'xclip -selection clipboard -t image/png -i $f'
 
 exit 0
