@@ -1,0 +1,23 @@
+#!/bin/sh
+
+spawn() {
+	pname="$1"
+
+	if [ $2 ]
+	then
+		pname="$2"
+	fi
+
+	if ! pgrep "$pname" > /dev/null
+	then
+		eval "$1 &"
+	fi
+}
+
+spawn firefox
+spawn franz
+spawn "urxvt -title 'Glances' -e glances" glances
+spawn ~/.bin/ruby/i3_spotify.rb spotify
+spawn transmission-remote-gtk
+
+exit 0
