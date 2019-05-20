@@ -8,6 +8,6 @@ dest=/var/cache/apt/archives
 url="$1"
 name=$(echo $url | rev | cut -d '/' -f 1 | rev)
 
-wget -q --show-progress "$url" -O "$dest/$name" && dpkg -i "$dest/$name"
+sudo wget -q --show-progress "$url" -O "$dest/$name" && sudo dpkg -i "$dest/$name"
 
 exit 0
