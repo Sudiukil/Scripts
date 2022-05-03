@@ -22,8 +22,10 @@ main() {
   WORKSPACE_PATH=$(find "$PROJECT_PATH" -name "*.code-workspace" 2> /dev/null)
 
   # Workspace path validation
-  [ -z "$WORKSPACE_PATH" ] && WORKSPACE_PATH="$PROJECT_PATH"
-  ! [ -d "$WORKSPACE_PATH" ] && echo "ERROR: '$(basename $WORKSPACE_PATH)' isn't a valid project name." && exit 1
+  if [ -z "$WORKSPACE_PATH" ]; then
+    WORKSPACE_PATH="$PROJECT_PATH"
+    ! [ -d "$WORKSPACE_PATH" ] && echo "ERROR: '$(basename $WORKSPACE_PATH)' isn't a valid project name." && exit 1
+  fi
 
   # Start a remote session for the workspace on VSCode, using the current WSL distro
   nohup code --remote "wsl+$WSL_DISTRO_NAME" "$WORKSPACE_PATH" > "/tmp/devsh_$PROJECT_NAME.log" 2>&1 &
