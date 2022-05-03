@@ -4,6 +4,9 @@
 ! [ -d "$PROJECTS_DIR" ] && echo 'ERROR: $PROJECTS_DIR is undefined (or not a dir).' && exit 1
 cd "$PROJECTS_DIR"
 
+# Check if Code is available
+! [ -x "$(which code)" ] && echo "ERROR: code binary isn't available." && exit 1
+
 # Prints usage for this script
 usage() {
   echo "dev.sh - open a project in Visual Studio Code from a WSL shell.\n"
