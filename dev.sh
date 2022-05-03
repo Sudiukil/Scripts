@@ -53,6 +53,6 @@ parse_args() {
 }
 
 # Parse args and look for the actual VSCode workspace
-parse_args $*
+parse_args "$@"
 
 exit 0
