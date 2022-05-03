@@ -1,9 +1,10 @@
 #!/bin/sh
 
-# Always start from the projects directory
+# Always start from the projects directory (and make it exists/is defined)
 ! [ -d "$PROJECTS_DIR" ] && echo 'ERROR: $PROJECTS_DIR is undefined (or not a dir).' && exit 1
 cd $PROJECTS_DIR
 
+# Prints usage for this script
 usage() {
   echo "dev.sh - open a project in Visual Studio Code from a WSL shell.\n"
   echo "Usage: dev.sh <project_name>"
@@ -12,6 +13,7 @@ usage() {
   echo "\t-h print this"
 }
 
+# Parse CLI args
 parse_args() {
   case $1 in
     '') usage; exit 1;;
@@ -20,13 +22,17 @@ parse_args() {
   esac
 }
 
+# Parse args and look for the actual VSCode workspace
 parse_args $*
 PROJECT_NAME="$1"
 PROJECT_PATH="$PROJECTS_DIR/$1/"
-WORKSPACE_PATH=$(find $PROJECT_PATH -name "*.code-workspace")
+WORKSPACE_PATH=$(find $PROJECT_PATH -name "*.code-workspace" 2> /dev/null)
 
+# Workspace path validation
 [ -z "$WORKSPACE_PATH" ] && WORKSPACE_PATH=$PROJECT_PATH
+! [ -d "$WORKSPACE_PATH" ] && echo "ERROR: '$(basename $WORKSPACE_PATH)' isn't a valid project name." && exit 1
 
-nohup code --remote wsl+Ubuntu "$WORKSPACE_PATH" > "/tmp/devsh_$PROJECT_NAME.log" 2>&1 &
+# Start a remote session for the workspace on VSCode, using the current WSL distro
+nohup code --remote "wsl+$WSL_DISTRO_NAME" "$WORKSPACE_PATH" > "/tmp/devsh_$PROJECT_NAME.log" 2>&1 &
 
 exit 0
