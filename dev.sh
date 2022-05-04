@@ -31,7 +31,7 @@ main() {
   fi
 
   # Start a remote session for the workspace on VSCode, using the current WSL distro
-  nohup code --remote "wsl+$WSL_DISTRO_NAME" "$WORKSPACE_PATH" > "/tmp/devsh_$PROJECT_NAME.log" 2>&1 &
+  nohup code -n --remote "wsl+$WSL_DISTRO_NAME" "$WORKSPACE_PATH" > "/tmp/devsh_$PROJECT_NAME.log" 2>&1 &
 }
 
 # Creates a new project from a Git URL and open it
