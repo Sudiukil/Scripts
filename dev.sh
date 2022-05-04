@@ -13,6 +13,8 @@ usage() {
   echo "Usage: dev.sh <project_name>"
   echo "Options:"
   echo "\t-l list known projects names"
+  echo "\t-n <git repo URL> clone a new project and open it"
+  echo "\t-p pick a project interactively"
   echo "\t-h print this"
 }
 
@@ -44,6 +46,13 @@ new() {
   main "$PROJECT_NAME"
 }
 
+pick() {
+  PLIST=$(ls | cat -n)
+  echo "Available projects:\n$PLIST"
+  read -p "Type in the project number: " PNUM
+  main $(echo "$PLIST" | grep -E "^ +$PNUM" | cut -f 2)
+}
+
 # Parse CLI args
 parse_args() {
   case $1 in
@@ -51,6 +60,7 @@ parse_args() {
     -h) usage; exit 0;;
     -l) ls -1; exit 0;;
     -n) new "$2"; exit 0;;
+    -p) pick; exit 0;;
     *) main "$1"; exit 0;;
   esac
 }
