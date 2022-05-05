@@ -37,7 +37,7 @@ list_messages() {
 
 # Show all messages with Cowsay
 cowsay_messages() {
-  ! [ -x "$(which cowsay)" ] && echo "ERROR: cowsay unavaible." && exit 1
+  [ -x "$(which cowsay)" ] || log "ERROR" "cowsay unavaible."
 
   case $(wc -l "$MESSAGES_FILE" | cut -d ' ' -f 1) in
     0) exit 0;;
