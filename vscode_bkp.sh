@@ -1,34 +1,34 @@
 #!/bin/sh
+# shellcheck disable=SC1091
+. "$(dirname "$(readlink -f "$0")")/common.sh"
 
-# Script to backup .vscode config dirs to an external location
+# Script to sync .vscode workspaces to an external repo for backup purposes
 
-# Make sure relevant directories exist
-! [ -d "$PROJECTS_DIR" ] && echo 'ERROR: $PROJECTS_DIR is undefined (or not a dir).' && exit 1
-! [ -d "./.vscode" ] && echo "ERROR: No .vscode dir found here!" && exit 1
+# Check for the projects dir
+[ -d "$PROJECTS_DIR" ] || log "ERROR" "$PROJECTS_DIR does not exists."
 
-# Ensure we only work under the projects directory, to avoid any dangerous operations on other files
-check_path() {
-  if ! $(echo $1 | grep "^$PROJECTS_DIR" > /dev/null); then
-    echo "ERROR: $1 isn't under your projects dir ($PROJECTS_DIR), aborting."
-    exit 1
-  fi
-}
+# Git repo used to backup
+BKP_REPO="$PROJECTS_DIR/vscode_workspaces/"
+[ -d "$BKP_REPO" ] || log "ERROR" "$BKP_REPO does not exists."
 
-# Target backup dir/repo
-BACKUP_DIR="$PROJECTS_DIR/vscode_workspaces/"
-check_path "$BACKUP_DIR"
-PROJECT_NAME=$(basename $(pwd))
-BACKUP_PATH="$BACKUP_DIR/$PROJECT_NAME/"
-check_path "$BACKUP_PATH"
+# shellcheck disable=SC2012
+ls "$PROJECTS_DIR" | while read -r name; do
+  # Code workspace and backup directories
+  BKP_DIR="$BKP_REPO/$name/"
+  CODE_WS="$PROJECTS_DIR/$name/.vscode/"
 
-# Remove previous backup and copy data
-[ -d "$BACKUP_PATH" ] && rm -r "$BACKUP_PATH"
-cp -r ./.vscode "$BACKUP_PATH"
+  # Ignore project is no Code workspace is found
+  [ -d "$CODE_WS" ] || continue
 
-# Add new backup to versioning
-cd "$BACKUP_DIR"
-git add "$PROJECT_NAME"
-git commit -m "Updated '$PROJECT_NAME' backup"
-git push
+  # Sync Code workspace and backup dir
+  [ -d "$BKP_DIR" ] || mkdir "$BKP_DIR"
+  rsync -avuq --delete "$CODE_WS/" "$BKP_DIR/"
+done
+
+# Commit and push backup repo changes
+cd "$BKP_REPO" || exit 1
+git add -A
+git commit -m "Update"
+git push -q
 
 exit 0
