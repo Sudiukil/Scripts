@@ -9,7 +9,7 @@ LOCK_PATH="$HOME/.winget.lock"
 
 [ -f "$WINGET" ] || log "ERROR" "winget binary isn't available."
 
-# Adds a --safe that'll upgrade all packages except those listed in ~/.winget.lock (ids only)
+# Adds a --safe option that'll upgrade all packages except those listed in ~/.winget.lock (ids only)
 # Useful for pinning versions (to the one currently installed) since winget doesn't handle that
 upgrade() {
   case $1 in
