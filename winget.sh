@@ -20,7 +20,7 @@ sed -e '/^$/d' -i "$LOCK_PATH"
 
 # Overloads some of `winget upgrade` options to ignore pinned packages:
 # - `upgrade` will not list pinned packages
-# - `upgrade --all` won't upgrade pinned packages
+# - `upgrade --all` will not upgrade pinned packages
 # - individual operations (such as `upgrade --id <id>`) keep their default behavior
 upgrade() {
   case $1 in
