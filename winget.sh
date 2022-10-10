@@ -5,7 +5,6 @@
 # Wrapper script for winget
 
 # TODO: fix pin ids (e.g. pinning "Microsoft.Edge" pins more than that)
-# TODO: check if `upgrade --all` is fixed (loop broke after first iteration)
 
 # Vars
 WINGET="$USERPROFILE/AppData/Local/Microsoft/WindowsApps/winget.exe"
@@ -27,6 +26,7 @@ sed -e '/^$/d' -i "$LOCK_PATH"
 # - individual operations (such as `upgrade --id <id>`) keep their default behavior
 upgrade() {
   case $1 in
+    # `echo "" | winget...` is to fix a WSL bug (loops break after first iteration)
     --all) $WINGET upgrade | rev | grep "tegniw" | tr -s ' ' | cut -d ' ' -f 4 | rev | grep -vf "$LOCK_PATH" | while read -r id; do echo "" | $WINGET upgrade --id "$id"; done;;
     '') $WINGET upgrade | grep -vf "$LOCK_PATH"; echo "$(grep -c ^ "$LOCK_PATH") upgrades are ignored (pinned versions).";;
     *) $WINGET upgrade "$@";;
