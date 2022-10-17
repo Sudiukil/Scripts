@@ -8,7 +8,7 @@
 
 # Vars
 WINGET="$USERPROFILE/AppData/Local/Microsoft/WindowsApps/winget.exe"
-WINGET_COMPATIBILITY="v1.3.2091"
+WINGET_COMPATIBILITY="v1.3.2691"
 LOCK_PATH="$HOME/.winget.lock"
 
 # Checks
