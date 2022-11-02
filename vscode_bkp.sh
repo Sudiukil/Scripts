@@ -17,7 +17,7 @@ ls "$PROJECTS_DIR" | while read -r name; do
   BKP_DIR="$BKP_REPO/$name/"
   CODE_WS="$PROJECTS_DIR/$name/.vscode/"
 
-  # Ignore project is no Code workspace is found
+  # Ignore project if no Code workspace is found
   [ -d "$CODE_WS" ] || continue
 
   # Sync Code workspace and backup dir
