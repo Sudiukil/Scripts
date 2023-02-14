@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# Log error, warning and infos
+# Log errors, warnings and infos
+# Exits for anything above INFO level
 # Params
 # 1. log level (ERROR, WARN or INFO)
 # 2. log message (string)

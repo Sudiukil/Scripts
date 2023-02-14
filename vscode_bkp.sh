@@ -2,33 +2,16 @@
 # shellcheck disable=SC1091
 . "$(dirname "$(readlink -f "$0")")/common.sh"
 
-# Script to sync .vscode workspaces to an external repo for backup purposes
+BACKUP_DIR="vscode_backups"
 
-# Check for the projects dir
-[ -d "$PROJECTS_DIR" ] || log "ERROR" "$PROJECTS_DIR does not exists."
+[ -z "$PROJECTS_DIR" ] && log "ERROR" "Couldn't find \$PROJECTS_DIR"
 
-# Git repo used to backup
-BKP_REPO="$PROJECTS_DIR/vscode_workspaces/"
-[ -d "$BKP_REPO" ] || log "ERROR" "$BKP_REPO does not exists."
+mkdir "$BACKUP_DIR"
+cd "$BACKUP_DIR" || exit 1
 
-# shellcheck disable=SC2012
-ls "$PROJECTS_DIR" | while read -r name; do
-  # Code workspace and backup directories
-  BKP_DIR="$BKP_REPO/$name/"
-  CODE_WS="$PROJECTS_DIR/$name/.vscode/"
-
-  # Ignore project if no Code workspace is found
-  [ -d "$CODE_WS" ] || continue
-
-  # Sync Code workspace and backup dir
-  [ -d "$BKP_DIR" ] || mkdir "$BKP_DIR"
-  rsync -avuq --delete "$CODE_WS/" "$BKP_DIR/"
+find "$PROJECTS_DIR" -maxdepth 2 -type d -name ".vscode" | while read -r path; do
+  name="$(echo "$path" | rev | cut -d '/' -f 2 | rev)"
+  zip -r "$name.zip" "$path"
 done
-
-# Commit and push backup repo changes
-cd "$BKP_REPO" || exit 1
-git add -A
-git commit -m "Update"
-git push -q
 
 exit 0
