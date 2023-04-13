@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Global lib/util script
+# Can be sourced in a shell or other scripts
+
 # Log errors, warnings and infos
 # Exits for anything above INFO level
 # Params
@@ -18,12 +21,14 @@ log() {
   esac
 }
 
+# Converts a Windows-formatted path to its WSL counterpart
 win_path_to_wsl() {
   [ -z "$1" ] && log "INFO" "Please provide a path to convert"
 
   printf '%s' "$1" | sed -e 's;\\;/;g' -e 's/://' -e 's;^.;/mnt/\L&;'
 }
 
+# Converts a WSL-formatted path to its Windows counterpart
 wsl_path_to_win() {
   [ -z "$1" ] && log "INFO" "Please provide a path to convert"
 
