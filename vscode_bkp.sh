@@ -2,6 +2,8 @@
 # shellcheck disable=SC1091
 . "$(dirname "$(readlink -f "$0")")/common.sh"
 
+# Backup script for VSCode projects config
+
 BACKUP_DIR="vscode_backups"
 
 [ -z "$PROJECTS_DIR" ] && log "ERROR" "Couldn't find \$PROJECTS_DIR"
