@@ -10,31 +10,46 @@ Function Read-Config {
   }
 }
 
-# `upgrade --all` substitute, with blacklisting support
-Function Upgrade-All-With-Blacklist {
-  Write-Output "Using wrapped function..."
-
+# Builds a list of installed packages, with blacklisting support
+Function List-Packages {
   # Export and list currently installed packages
   winget export -o "$env:TEMP\winget.json" >$null
-  $packages = Get-Content $env:TEMP\winget.json | jq -r ".Sources[].Packages[].PackageIdentifier"
+  $packages = (Get-Content $env:TEMP\winget.json | jq -r ".Sources[].Packages[].PackageIdentifier") -Split '\r?\n'
+
+  # Filter out blackisted packages
+  $upgradablePackages = $packages | Where-Object { $config.Blacklist -notcontains $_ }
+
+  Return [PSCustomObject]@{
+    All = $packages
+    Blacklisted = $config.Blacklist
+    Upgradable = $upgradablePackages
+  }
+}
+
+# `upgrade --all` substitute, with blacklisting support
+Function Upgrade-All-Wrapper {
+  Write-Output "Using wrapped function..."
+
+  # Get upgradable (non blacklisted) packages
+  $packages = (List-Packages).Upgradable
   $packageCount = $packages.Length
 
-  # Loop over installed packages and update each if no blacklist match is found
+  # Loop through all packages and upgrade them
   For ($i = 0; $i -lt $packageCount; $i++) {
     $packageId = $packages[$i]
-    $pcent = [Math]::Ceiling(($i + 1) / $packageCount * 100)
-    Write-Progress -Id $PID -Activity "Upgrading all packages" -Status "$pcent% Upgrading $packageId..." -PercentComplete $pcent
+    $progress = [Math]::Ceiling(($i + 1) / $packageCount * 100)
+    Write-Progress -Id $PID -Activity "Upgrading all packages" -Status "$progress% Upgrading $packageId..." -PercentComplete $progress
 
-    If (!$config.Blacklist.Contains($packageId)) {
-      winget upgrade --id $packageId >$null
-    }
+    winget upgrade --id $packageId >$null
   }
+
+  Write-Output "Done!"
 }
 
 # Upgrade arguments parser
 Function Upgrade-Wrapper([Array]$params) {
   Switch ($params[0]) {
-    "--all" { Upgrade-All-With-Blacklist }
+    "--all" { Upgrade-All-Wrapper }
     default { winget upgrade $params }
   }
 }
