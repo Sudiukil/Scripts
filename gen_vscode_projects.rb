@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Script to update Project Manager (VSCode extension) config from my projects folder (slapped it as User task in VSCode)
+# Script to update Project Manager (VSCode extension) config from a projects folder (slap it as User task in VSCode)
 
 require 'json'
 
