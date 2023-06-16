@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+# Script to update Project Manager (VSCode extension) config from my projects folder (slapped it as User task in VSCode)
+
 require 'json'
 
 PROJECTS_DIR = "#{ENV['HOME']}/Projets/"
