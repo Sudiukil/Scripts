@@ -11,7 +11,7 @@ fi
 
 UPSTREAM_BRANCH="$1"
 DIFF_CURRENT_UPSTREAM=$(git cherry -v "$UPSTREAM_BRANCH")
-DIFF_UPSTREAM_CURRENT=$(git cherry -v HEAD "$UPSTREAM_BRANCH" | sed -e 's/+/-/')
+DIFF_UPSTREAM_CURRENT=$(git cherry -v HEAD "$UPSTREAM_BRANCH" | sed -e 's/\+/-/')
 
 echo "${GREEN}$DIFF_CURRENT_UPSTREAM${NC}"
 echo "${RED}$DIFF_UPSTREAM_CURRENT${NC}"
