@@ -1,11 +1,19 @@
 #!/bin/sh
 
-# Script for sharing clipboard between WSL and Windows
-# Requires the used pwsh executable to be the Windows one
+# Script for writting into Windows clipboard from WSL
+# clip.exe doesn't (always) play nice with UTF-8, so...
+# Requires pwsh to be a **Windows executable** (i.e. a symlink to whatever PowerShell executable you have installed on Windows)
 
-while read -r line
-do
-  pwsh -NoProfile -Command Set-Clipboard -Value "$line"
+# Read the script piped input to a variable
+while read -r line; do
+  # No line breaks for the first line
+  [ -z "${input+x}" ] && input="$line" && continue
+
+  # Append the next lines with a PowerShell line break
+  input="$input\`n$line"
 done
+
+# Write the variable to the Windows clipboard, via PowerShell
+echo "$input" | pwsh -NoProfile -Command "Set-Clipboard -Value \"$input\""
 
 exit 0

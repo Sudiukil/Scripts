@@ -9,8 +9,8 @@ WINDOWS_BIN_DIR="$USERPROFILE/.bin"
 if [ -d "$LINUX_BIN_DIR" ]; then
   find . -type f \( -name "*.sh" -o -name "*.rb" \) -printf "%P\n" | while read -r i; do
     ln -sf "$PWD/$i" "$LINUX_BIN_DIR/$(basename "${i%.*}")"
+    chmod +x "$LINUX_BIN_DIR/$(basename "${i%.*}")"
   done
-  chmod +x "$LINUX_BIN_DIR"/*
 else
   echo "No ~/.bin dir found, skipping Linux scripts..."
 fi

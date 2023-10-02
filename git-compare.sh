@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Script for comparing git branches (two-ways)
+
 RED='\033[0;31m' # Red
 GREEN='\033[0;32m' # Green
 NC='\033[0m' # No Color

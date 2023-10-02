@@ -7,7 +7,7 @@ require 'json'
 
 PROJECTS_DIR = "#{ENV['HOME']}/Projets/"
 # rubocop:disable Layout/LineLength
-PROJECT_MANAGER_CONFIG = "#{ENV['USERPROFILE']}/AppData/Roaming/Code - Insiders/User/globalStorage/alefragnani.project-manager/projects.json"
+PROJECT_MANAGER_CONFIG = "#{ENV['USERPROFILE']}/AppData/Roaming/Code/User/globalStorage/alefragnani.project-manager/projects.json"
 # rubocop:enable Layout/LineLength
 
 files = []
