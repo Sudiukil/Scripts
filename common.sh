@@ -20,17 +20,3 @@ log() {
     "FATAL") exit 3;;
   esac
 }
-
-# Converts a Windows-formatted path to its WSL counterpart
-win_path_to_wsl() {
-  [ -z "$1" ] && log "INFO" "Please provide a path to convert"
-
-  printf '%s' "$1" | sed -e 's;\\;/;g' -e 's/://' -e 's;^.;/mnt/\L&;'
-}
-
-# Converts a WSL-formatted path to its Windows counterpart
-wsl_path_to_win() {
-  [ -z "$1" ] && log "INFO" "Please provide a path to convert"
-
-  printf '%s' "$1" | sed -e 's;/mnt/;;' -e 's/^./\U&:/' -e 's;/;\\;g'
-}
