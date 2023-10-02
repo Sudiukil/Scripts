@@ -1,6 +1,6 @@
 # Scripts
 
-This repo contains small and simple scripts I made for my personnal use. They are probably useless as is but should be easily reusable.
+This repo contains small and simple scripts I made for my personal use. Those are probably useless as is but should be easily reusable.
 
 **Note**: As of May 2022, all scripts were moved to the [*archive*](https://github.com/Sudiukil/Scripts/tree/archive) branch and only actively used and maintained scripts will remain on *master*.
 
