@@ -18,7 +18,7 @@ fi
 # Windows
 if [ -d "$WINDOWS_BIN_DIR" ]; then
   find . -type f -name "*.ps1" -printf "%P\n" | while read -r i; do
-    cp "$PWD/$i" "$WINDOWS_BIN_DIR/$(basename "${i%.*}")"
+    cp "$PWD/$i" "$WINDOWS_BIN_DIR/$(basename "$i")"
   done
 else
   echo "No \$USERPROFILE/.bin dir found, skipping Windows scripts..."
