@@ -24,7 +24,7 @@ if [ "$1" = "-a" ]; then
   # Note: git branches is a custom alias, listing all local and remote branches names
   branches=$(git branches)
 else
-  # Sync only current branch
+  # Sync only already existing local branches
   branches=$(git branch -l | tr -s ' ' | cut -d ' ' -f 2)
 fi
 
