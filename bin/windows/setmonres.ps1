@@ -1,0 +1,1 @@
+../../powershell/setmonres.ps1

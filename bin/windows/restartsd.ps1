@@ -1,0 +1,1 @@
+../../powershell/restartsd.ps1
