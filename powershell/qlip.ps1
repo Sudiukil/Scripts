@@ -17,11 +17,6 @@ $DEST_FILE = "$env:USERPROFILE\Desktop\clip.mp4"
 $SCRIPT_NAME = $MyInvocation.MyCommand.Path | Split-Path -Leaf
 
 # Generate a clip from the input file
-# The clip is created using ffmpeg with the specified start and end timestamps
-# The output file is saved to the desktop with the name "clip.mp4"
-# The audio streams are merged into one using the amerge filter
-# The video is encoded using the hevc_nvenc codec with a constant quality of 20
-# The output frame rate is set to 60 fps
 function Write-Clip {
   param(
     [string] $InputFile,
@@ -29,7 +24,23 @@ function Write-Clip {
     [string] $EndTimestamp
   )
 
-  ffmpeg -y -ss "$StartTimestamp" -to "$EndTimestamp" -i "$InputFile" -filter_complex "[0:a:0][0:a:1][0:a:2]amerge=inputs=3[aout]" -map 0:v -map "[aout]" -c:v hevc_nvenc -preset p4 -cq 20 -r 60 -c:a aac -ac 2 $DEST_FILE
+  $ffmpegArgs = @(
+    "-y"                           # Overwrite output file without asking
+    "-ss", "$StartTimestamp"       # Start time for the clip
+    "-to", "$EndTimestamp"         # End time for the clip
+    "-i", "$InputFile"             # Input file
+    "-filter_complex", "[0:a:0][0:a:1][0:a:2]amerge=inputs=3[aout]" # Merge audio streams
+    "-map", "0:v"                  # Map the first video stream
+    "-map", "[aout]"               # Map the merged audio stream
+    "-c:v", "hevc_nvenc"           # Use the NVIDIA HEVC encoder
+    "-preset", "p4"                # Use the p4 preset for faster encoding
+    "-cq", "28"                    # Set constant quality to 28
+    "-r", "60"                     # Set output frame rate to 60 fps
+    "-c:a", "aac"                  # Use AAC for audio encoding
+    "-ac", "2"                     # Set number of audio channels to 2 (stereo)
+    "$DEST_FILE"                   # Output file path
+  )
+  & ffmpeg @ffmpegArgs
 }
 
 # Function to get the latest .mkv file from the source directory, for quick clips
@@ -53,6 +64,8 @@ function Show-Usage {
   Write-Host "`t$SCRIPT_NAME -QuickClip <seconds>"
   Write-Host "`t$SCRIPT_NAME -InputFile <source.mkv> -StartTimestamp <start> -EndTimestamp <end>"
 }
+
+### Main script
 
 if ($QuickClip -ge 10 -and $QuickClip -le 60) {
   $InputFile = (Get-LatestSourceClip)
