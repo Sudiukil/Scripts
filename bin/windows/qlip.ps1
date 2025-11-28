@@ -1,1 +1,0 @@
-../../powershell/qlip.ps1
