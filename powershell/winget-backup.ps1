@@ -21,7 +21,10 @@ $PackagesBlacklist = @(
   "Microsoft.AppInstaller",
   "Microsoft.UI.Xaml.2.7",
   "Microsoft.UI.Xaml.2.8",
-  "Microsoft.VCLibs.Desktop.14"
+  "Microsoft.VCLibs.Desktop.14",
+  "Microsoft.GameInput",
+  "Microsoft.VCRedist.2013.x64",
+  "Microsoft.VCRedist.2013.x86"
 )
 
 # Backups a filtered list of Winget packages IDs to a text file
