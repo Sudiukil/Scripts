@@ -34,7 +34,7 @@ function Write-Clip {
     "-map", "[aout]"               # Map the merged audio stream
     "-c:v", "hevc_nvenc"           # Use the NVIDIA HEVC encoder
     "-preset", "p4"                # Use the p4 preset for faster encoding
-    "-cq", "28"                    # Set constant quality to 28
+    "-cq", "26"                    # Set constant quality to 26
     "-r", "60"                     # Set output frame rate to 60 fps
     "-c:a", "aac"                  # Use AAC for audio encoding
     "-ac", "2"                     # Set number of audio channels to 2 (stereo)
