@@ -72,6 +72,8 @@ map() {
     if [ "$port_mapped" -eq 0 ]; then
       ufw_allow_map_port "$port"
       port_mapped=1
+      echo "$port" | wl-copy # Also copy port to clipboard for convenience
+      log "INFO" "Port $port copied to clipboard"
     fi
     
     sleep 45
