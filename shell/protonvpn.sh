@@ -1,18 +1,18 @@
 #!/bin/sh
 
 # Basic script to handle ProtonVPN in CLI
-# Requires wg-quick and natpmpc
+# Requires wg-quick, natpmpc and pcregrep
 # Also relies on proper wireguard config
 
+# Utility lib
+# shellcheck disable=SC1091
+. "$HOME/.scripts/shell/utils.sh"
+
+# Constants
 GATEWAY="10.2.0.1"
 IP="10.2.0.2"
 MAP_LIFETIME=60
 UFW_RULE_BASE="allow in on ProtonVPN from any to $IP port"
-
-# Basic logger
-log() {
-  printf "[%s] %s: %s\n" "$(date '+%Y-%m-%d %H:%M:%S')" "$1" "$2"
-}
 
 # Manages UFW rules for the mapped port
 ufw_allow_map_port() {
@@ -100,10 +100,20 @@ print_usage() {
   echo "Regions: fr, ch"
 }
 
-# Args handling
+# Main script
+
 case "$1" in
-  map) map;;
-  connect) connect "$2";;
-  disconnect) disconnect;;
-  *) print_usage; exit 1;;
+  "map")
+    map;;
+  "connect")
+    connect "$2";;
+  "disconnect")
+    disconnect;;
+  "h"|"help"|"-h"|"--help")
+    print_usage;;
+  *)
+    print_usage
+    exit 1;;
 esac
+
+exit 0
