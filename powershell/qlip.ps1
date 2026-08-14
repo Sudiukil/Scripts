@@ -12,7 +12,7 @@ param(
 Add-Type -AssemblyName System.Windows.Forms
 
 # Constants
-$SOURCE_DIR = "E:\Vidéos\Captures\OBS"
+$SOURCE_DIR = "$env:USERPROFILE\Videos\Captures"
 $DEST_FILE = "$env:USERPROFILE\Desktop\clip.mp4"
 $SCRIPT_NAME = $MyInvocation.MyCommand.Path | Split-Path -Leaf
 
