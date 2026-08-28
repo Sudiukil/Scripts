@@ -55,7 +55,7 @@ function Sort-GitTagsBySemVer {
   }
 
   if ($invalidTags.Length -gt 0) {
-    Write-Host -ForegroundColor Gray "Ignored invalid semver tags: $($invalidTag -join ', ')"
+    Write-Host -ForegroundColor Gray "`nIgnored invalid semver tags: $($invalidTags -join ', ')"
   }
 }
 
