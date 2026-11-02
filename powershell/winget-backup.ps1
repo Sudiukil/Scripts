@@ -24,7 +24,20 @@ $PackagesBlacklist = @(
   "Microsoft.VCLibs.Desktop.14",
   "Microsoft.GameInput",
   "Microsoft.VCRedist.2013.x64",
-  "Microsoft.VCRedist.2013.x86"
+  "Microsoft.VCRedist.2013.x86",
+  "Microsoft.VCLibs.14",
+  "Microsoft.WindowsAppRuntime.1.7",
+  "Microsoft.WindowsAppRuntime.1.8",
+  "Microsoft.WindowsAppRuntime.2",
+  "Microsoft.WindowsTerminal",
+  "Microsoft.DirectX",
+  "Microsoft.DotNet.Native.Runtime",
+  "Microsoft.DotNet.SDK.10",
+  "Microsoft.DotNet.SDK.9",
+  "Microsoft.DotNet.Runtime.9",
+  "Microsoft.DotNet.Runtime.10",
+  "Microsoft.VCRedist.2010.x86",
+  "Microsoft.VCRedist.2010.x64"
 )
 
 # Backups a filtered list of Winget packages IDs to a text file
