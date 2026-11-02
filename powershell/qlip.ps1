@@ -29,11 +29,12 @@ function Write-Clip {
     "-ss", "$StartTimestamp"       # Start time for the clip
     "-to", "$EndTimestamp"         # End time for the clip
     "-i", "$InputFile"             # Input file
-    "-filter_complex", "[0:a:0][0:a:1][0:a:2]amerge=inputs=3[aout]" # Merge audio streams
+    # "-filter_complex", "[0:a:0][0:a:1][0:a:2]amerge=inputs=3[aout]" # Merge audio streams
+    "-filter_complex", "[0:a:0][0:a:1]amerge=inputs=2[aout]" # Merge audio streams
     "-map", "0:v"                  # Map the first video stream
     "-map", "[aout]"               # Map the merged audio stream
     "-c:v", "hevc_nvenc"           # Use the NVIDIA HEVC encoder
-    "-preset", "p4"                # Use the p4 preset for faster encoding
+    "-preset", "p5"                # Use the p4 preset for faster encoding
     "-cq", "26"                    # Set constant quality to 26
     "-r", "60"                     # Set output frame rate to 60 fps
     "-c:a", "aac"                  # Use AAC for audio encoding
